@@ -35,7 +35,7 @@
     .mock{padding:18px}
     .chrome{background:#0b1022;border:1px solid var(--stroke);border-radius:14px;padding:14px}
     .tabs{display:flex;gap:8px;margin-bottom:12px}
-    .pill{background:#0e1530;border:1px solid var(--stroke);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:12px}
+    .pill{background:#0e1530;border:1px solid var(--stroke);color:#9aa4b5;padding:6px 10px;border-radius:999px;font-size:12px}
     .active{background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#0b1022;font-weight:700}
     .panel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     .card{background:#0b1228;border:1px solid var(--stroke);border-radius:12px;padding:16px}
@@ -44,9 +44,8 @@
     .section h2{font-size:28px;margin:0 0 8px}
     .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
     .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-    .badge{border:1px solid var(--stroke);border-radius:999px;padding:8px 10px;font-size:12px;color:var(--muted)}
-    .foot{margin-top:60px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px}
-    .tiny{font-size:12px;color:var(--muted)}
+    .badge{border:1px solid var(--stroke);border-radius:999px;padding:8px 10px;font-size:12px;color:#9aa4b5}
+    .tiny{font-size:12px;color:#9aa4b5}
     .big{font-size:32px;font-weight:800;color:#e2e8f0}
     @media(max-width:1040px){.hero{grid-template-columns:1fr}.panel{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
     /* --- energy bars --- */
@@ -58,6 +57,56 @@
     .energy .left{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(56,189,248,.15),rgba(56,189,248,.8));box-shadow:0 0 18px rgba(56,189,248,.35) inset}
     .energy .right{position:absolute;right:0;top:0;bottom:0;background:linear-gradient(270deg,rgba(139,92,246,.15),rgba(139,92,246,.8));box-shadow:0 0 18px rgba(139,92,246,.35) inset}
     .energy .numbers{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+    /* --- footer (enhanced, no navigation) --- */
+    .footer{
+      background:rgba(255,255,255,0.03);
+      border-top:1px solid var(--stroke);
+      margin-top:90px;
+      padding:48px 0 24px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .footer-wrap{
+      max-width:1140px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:1.2fr 2fr;
+      gap:28px;
+      padding:0 28px;
+    }
+    .footer-brand{min-width:220px}
+    .footer .logo{width:160px;height:40px}
+    .footer .slogan{margin-top:10px;font-size:13px;color:var(--muted)}
+    .footer-columns{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(140px,1fr));
+      gap:18px;
+    }
+    .fcol h4{margin:0 0 10px;font-size:13px;color:#cbd5e1;letter-spacing:.3px}
+    .nolink{
+      display:block;
+      color:var(--text);
+      font-size:13px;
+      text-decoration:none;
+      margin:6px 0;
+      opacity:.9;
+      cursor:default;
+    }
+    .nolink[aria-disabled="true"]{pointer-events:none}
+    .footer-bottom{
+      max-width:1140px;margin:36px auto 0;border-top:1px solid var(--stroke);
+      padding:14px 28px;display:flex;justify-content:space-between;flex-wrap:wrap;
+      gap:8px;font-size:12px;color:var(--muted)
+    }
+    .footer-social{display:flex;gap:10px;font-size:18px;margin-top:10px}
+    .footer-social .nolink{display:inline-block;margin:0 6px 0 0}
+    @media(max-width:900px){
+      .footer-wrap{grid-template-columns:1fr}
+      .footer-columns{grid-template-columns:repeat(2,minmax(160px,1fr))}
+    }
+    @media(max-width:520px){
+      .footer-columns{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
@@ -159,12 +208,74 @@
         <div class="card"><h3>Sign-ups</h3><div id="m-signups" class="big">—</div></div>
       </div>
     </section>
-
-    <footer class="foot">
-      <div>© <span id="year"></span> Spyglass</div>
-      <div class="tiny">Built with care. No tracking cookies.</div>
-    </footer>
   </div>
+
+  <!-- Footer (display-only, no navigation) -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="footer-wrap">
+      <div class="footer-brand">
+        <svg class="logo" viewBox="0 0 320 78" xmlns="http://www.w3.org/2000/svg" aria-label="Spyglass logo">
+          <defs>
+            <linearGradient id="gf" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#38bdf8"/>
+              <stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+            <filter id="sf" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.25"/>
+            </filter>
+          </defs>
+          <g transform="translate(4,4)" filter="url(#sf)">
+            <circle cx="28" cy="28" r="22" fill="#0b1022" stroke="url(#gf)" stroke-width="4"/>
+            <circle cx="28" cy="28" r="8" fill="url(#gf)"/>
+            <rect x="44" y="38" width="18" height="6" rx="3" transform="rotate(45 44 38)" fill="url(#gf)"/>
+          </g>
+        </svg>
+        <p class="slogan">See news through unbiased lenses.</p>
+        <div class="footer-social" aria-label="Socials">
+          <span class="nolink" aria-disabled="true" title="Twitter">🐦</span>
+          <span class="nolink" aria-disabled="true" title="LinkedIn">💼</span>
+          <span class="nolink" aria-disabled="true" title="GitHub">💻</span>
+        </div>
+      </div>
+
+      <div class="footer-columns" role="list" aria-label="Footer columns">
+        <div class="fcol" role="listitem">
+          <h4>Product</h4>
+          <span class="nolink" aria-disabled="true">How it works</span>
+          <span class="nolink" aria-disabled="true">Features</span>
+          <span class="nolink" aria-disabled="true">Validation</span>
+          <span class="nolink" aria-disabled="true">Join Waitlist</span>
+        </div>
+        <div class="fcol" role="listitem">
+          <h4>Company</h4>
+          <span class="nolink" aria-disabled="true">Contact</span>
+          <span class="nolink" aria-disabled="true">Press Kit</span>
+          <span class="nolink" aria-disabled="true">Careers</span>
+          <span class="nolink" aria-disabled="true">Newsletter</span>
+        </div>
+        <div class="fcol" role="listitem">
+          <h4>Resources</h4>
+          <span class="nolink" aria-disabled="true">Changelog</span>
+          <span class="nolink" aria-disabled="true">Status</span>
+          <span class="nolink" aria-disabled="true">Brand Assets</span>
+          <span class="nolink" aria-disabled="true">Accessibility</span>
+        </div>
+        <div class="fcol" role="listitem">
+          <h4>Legal</h4>
+          <span class="nolink" aria-disabled="true">Terms &amp; Conditions</span>
+          <span class="nolink" aria-disabled="true">Privacy Policy</span>
+          <span class="nolink" aria-disabled="true">Cookie Policy</span>
+          <span class="nolink" aria-disabled="true">Data Processing Addendum</span>
+          <span class="nolink" aria-disabled="true">Disclaimer</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> Spyglass • All rights reserved.</span>
+      <span>No tracking cookies. Privacy-first by design.</span>
+    </div>
+  </footer>
 
   <script>
     const bump=k=>{const v=Number(localStorage.getItem(k)||0)+1;localStorage.setItem(k,v);return v};
@@ -180,10 +291,13 @@
       document.getElementById('email').value='';
       render();
     };
-    function render(){document.getElementById('m-visits').textContent=read('visits');
+    function render(){
+      document.getElementById('m-visits').textContent=read('visits');
       document.getElementById('m-cta').textContent=read('cta_clicks');
-      document.getElementById('m-signups').textContent=read('signups');}
-    render();document.getElementById('year').textContent=new Date().getFullYear();
+      document.getElementById('m-signups').textContent=read('signups');
+    }
+    render();
+    document.getElementById('year').textContent=new Date().getFullYear();
   </script>
 </body>
 </html>
