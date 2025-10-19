@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spyglass — See news through unbiased lenses</title>
+  <meta name="description" content="Spyglass flags top viewpoint biases, summarizes the narrative and history, and runs fact-checks via an agent that fetches sources on demand." />
+  <meta property="og:title" content="Spyglass" />
+  <meta property="og:description" content="See news through unbiased lenses." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://raw.githubusercontent.com/your-username/your-repo/main/spyglass-landing-hero.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f172a;--glass:rgba(255,255,255,.06);--text:#e5e7eb;--muted:#94a3b8;
+      --brand:#38bdf8;--accent:#8b5cf6;--stroke:rgba(255,255,255,.08);
+      --card:#0b1228;--shadow:0 10px 30px rgba(0,0,0,.35);--radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background: radial-gradient(1200px 800px at 10% 0%, #172554 0%, var(--bg) 45%), var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
+    a{color:var(--brand);text-decoration:none}
+    .wrap{max-width:1140px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center}
+    .logo{width:180px;height:44px}
+    .nav a{margin-left:18px;color:var(--muted)}
+    .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;margin-top:40px}
+    .hero h1{font-size:48px;margin:0 0 12px 0}
+    .hero p.lead{color:var(--muted);font-size:18px;margin:0 0 18px 0}
+    .glass{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .cta{display:flex;gap:10px;align-items:center;margin-top:16px}
+    .cta input[type=email]{flex:1;padding:14px;border-radius:12px;border:1px solid var(--stroke);background:#0b1022;color:var(--text)}
+    .btn{border:0;border-radius:12px;padding:14px 18px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,var(--brand),var(--accent));color:#0b1022;box-shadow:var(--shadow)}
+    .btn.secondary{background:transparent;border:1px solid var(--stroke);color:var(--text)}
+    .mock{padding:18px}
+    .chrome{background:#0b1022;border:1px solid var(--stroke);border-radius:14px;padding:14px}
+    .tabs{display:flex;gap:8px;margin-bottom:12px}
+    .pill{background:#0e1530;border:1px solid var(--stroke);color:var(--muted);padding:6px 10px;border-radius:999px;font-size:12px}
+    .active{background:linear-gradient(90deg,#0ea5e9,#8b5cf6);color:#0b1022;font-weight:700}
+    .panel{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .card{background:#0b1228;border:1px solid var(--stroke);border-radius:12px;padding:16px}
+    .card h3{margin:0 0 8px;font-size:16px;color:#cbd5e1}
+    .section{margin-top:70px}
+    .section h2{font-size:28px;margin:0 0 8px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .badge{border:1px solid var(--stroke);border-radius:999px;padding:8px 10px;font-size:12px;color:var(--muted)}
+    .foot{margin-top:60px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:14px}
+    .tiny{font-size:12px;color:var(--muted)}
+    .big{font-size:32px;font-weight:800;color:#e2e8f0}
+    @media(max-width:1040px){.hero{grid-template-columns:1fr}.panel{grid-template-columns:1fr}.grid-3{grid-template-columns:1fr}}
+    /* --- energy bars --- */
+    .energy-list{display:grid;gap:14px}
+    .energy{background:#0b1228;border:1px solid var(--stroke);border-radius:12px;padding:12px}
+    .energy .labels{display:flex;justify-content:space-between;font-size:12px;color:#e5e7eb;margin-bottom:8px}
+    .energy .track{position:relative;height:16px;border-radius:999px;background:#0e1530;overflow:hidden}
+    .energy .center{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.15);transform:translateX(-1px)}
+    .energy .left{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(56,189,248,.15),rgba(56,189,248,.8));box-shadow:0 0 18px rgba(56,189,248,.35) inset}
+    .energy .right{position:absolute;right:0;top:0;bottom:0;background:linear-gradient(270deg,rgba(139,92,246,.15),rgba(139,92,246,.8));box-shadow:0 0 18px rgba(139,92,246,.35) inset}
+    .energy .numbers{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 320 78" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+            <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.25"/>
+            </filter></defs>
+          <g transform="translate(4,4)" filter="url(#s)">
+            <circle cx="28" cy="28" r="22" fill="#0b1022" stroke="url(#g)" stroke-width="4"/>
+            <circle cx="28" cy="28" r="8" fill="url(#g)"/>
+            <rect x="44" y="38" width="18" height="6" rx="3" transform="rotate(45 44 38)" fill="url(#g)"/>
+          </g>
+          <text x="78" y="48" font-family="Inter" font-weight="800" font-size="40" fill="#e5e7eb">Spyglass</text>
+        </svg>
+      </div>
+      <nav class="nav tiny">
+        <a href="#how">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#validate">Validation</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="glass" style="padding:26px">
+          <h1>See news through unbiased lenses.</h1>
+          <p class="lead">Spyglass fetches coverage for any headline, highlights viewpoint biases on spectrums, then generates a concise narrative & history. A fact-checking agent verifies claims with traceable sources.</p>
+          <form id="waitlist" class="cta">
+            <input type="email" id="email" placeholder="Your email" required>
+            <button class="btn" type="submit">Join Waitlist</button>
+            <button class="btn secondary" type="button" id="try-demo">Try Demo</button>
+          </form>
+          <p class="tiny">No spam. Only updates and invites.</p>
+        </div>
+        <div class="badges">
+          <div class="badge">Bias spectra</div><div class="badge">Narrative summary</div>
+          <div class="badge">Historical context</div><div class="badge">Fact-check agent</div>
+        </div>
+      </div>
+
+      <div class="mock">
+        <div class="chrome">
+          <div class="tabs"><span class="pill active">Biases</span><span class="pill">Narrative</span><span class="pill">History</span><span class="pill">Fact-checks</span></div>
+          <div class="panel">
+            <div class="card">
+              <h3>Top Biases (across sources)</h3>
+              <div class="energy-list tiny">
+                <div class="energy"><div class="labels"><span>Progressive</span><span>Conservative</span></div>
+                  <div class="track"><div class="center"></div><div class="left" style="width:35%"></div><div class="right" style="width:65%"></div></div>
+                  <div class="numbers"><span>35%</span><span>65%</span></div></div>
+                <div class="energy"><div class="labels"><span>Pro-feminist</span><span>Anti-feminist</span></div>
+                  <div class="track"><div class="center"></div><div class="left" style="width:65%"></div><div class="right" style="width:35%"></div></div>
+                  <div class="numbers"><span>65%</span><span>35%</span></div></div>
+                <div class="energy"><div class="labels"><span>Secular</span><span>Faith-centric</span></div>
+                  <div class="track"><div class="center"></div><div class="left" style="width:45%"></div><div class="right" style="width:55%"></div></div>
+                  <div class="numbers"><span>45%</span><span>55%</span></div></div>
+              </div>
+            </div>
+            <div class="card"><h3>Narrative Summary</h3><p class="tiny">Coverage amplifies a “crisis” frame with words like “spiral.” Neutral facts are buried; quotes cluster around few outlets.</p></div>
+            <div class="card"><h3>Historical Context</h3><p class="tiny">Similar headlines appeared in 2012 and 2018 during policy cycles; context separates patterns from panic.</p></div>
+            <div class="card"><h3>Fact-check Agent</h3><p class="tiny">Agent fetches citations on demand and verifies stats; unsupported claims flagged.</p><p class="tiny">We display outlets and link to originals.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="section">
+      <h2>How it works</h2>
+      <div class="grid-3">
+        <div class="card"><h3>1) Fetch</h3><p class="tiny">Enter a global headline; agent retrieves recent articles.</p></div>
+        <div class="card"><h3>2) Detect patterns</h3><p class="tiny">We analyze framing, loaded language, and source diversity to infer biases.</p></div>
+        <div class="card"><h3>3) Explain</h3><p class="tiny">Get a concise narrative & history summary, plus fact-checks with traceable citations.</p></div>
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <h2>What you get</h2>
+      <div class="grid-3">
+        <div class="card"><h3>Bias Spectra</h3><p class="tiny">Political, gender, and religious perspectives displayed as energy bars.</p></div>
+        <div class="card"><h3>Narrative Summary</h3><p class="tiny">A 60-second read for the gist without spin.</p></div>
+        <div class="card"><h3>Historical Context</h3><p class="tiny">See if this story happened before—and how it played out.</p></div>
+        <div class="card"><h3>Fact-check Agent</h3><p class="tiny">Prompt the agent to fetch sources and verify claims.</p></div>
+        <div class="card"><h3>Outlet Links</h3><p class="tiny">Skim our notes, then go to the publisher’s site.</p></div>
+        <div class="card"><h3>Lightweight & Private</h3><p class="tiny">No cookies; metrics stored locally only.</p></div>
+      </div>
+    </section>
+
+    <section id="validate" class="section">
+      <h2>Help us validate</h2>
+      <p class="tiny">Share this page with friends. We track visits, clicks, and sign-ups locally to gauge interest.</p>
+      <div class="grid-3">
+        <div class="card"><h3>Visits</h3><div id="m-visits" class="big">—</div></div>
+        <div class="card"><h3>CTA Clicks</h3><div id="m-cta" class="big">—</div></div>
+        <div class="card"><h3>Sign-ups</h3><div id="m-signups" class="big">—</div></div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <div>© <span id="year"></span> Spyglass</div>
+      <div class="tiny">Built with care. No tracking cookies.</div>
+    </footer>
+  </div>
+
+  <script>
+    const bump=k=>{const v=Number(localStorage.getItem(k)||0)+1;localStorage.setItem(k,v);return v};
+    const read=k=>Number(localStorage.getItem(k)||0);
+    if(!localStorage.getItem('_spyglass_seen')){localStorage.setItem('_spyglass_seen','1');bump('visits');}
+    document.getElementById('try-demo').onclick=()=>{bump('cta_clicks');alert('Demo: imagine a prototype opens.');};
+    document.getElementById('waitlist').onsubmit=e=>{
+      e.preventDefault();
+      const email=document.getElementById('email').value.trim();
+      if(!email)return;
+      bump('signups');
+      window.location.href=`mailto:hello@yourdomain.com?subject=Spyglass%20Waitlist&body=Add%20me:%20${encodeURIComponent(email)}`;
+      document.getElementById('email').value='';
+      render();
+    };
+    function render(){document.getElementById('m-visits').textContent=read('visits');
+      document.getElementById('m-cta').textContent=read('cta_clicks');
+      document.getElementById('m-signups').textContent=read('signups');}
+    render();document.getElementById('year').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>
