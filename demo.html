@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spyglass — Demo: US TikTok Divestment/Ban Legislation</title>
+  <meta name="description" content="Demo page: Spyglass aggregates coverage on a headline, shows viewpoint bias spectrums, summarizes narrative & history, and runs lightweight fact-checks via an agent." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f172a;--glass:rgba(255,255,255,.06);--text:#e5e7eb;--muted:#94a3b8;
+      --brand:#38bdf8;--accent:#8b5cf6;--stroke:rgba(255,255,255,.08);
+      --card:#0b1228;--shadow:0 10px 30px rgba(0,0,0,.35);--radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background: radial-gradient(1200px 800px at 10% 0%, #172554 0%, var(--bg) 45%), var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.5}
+    a{color:var(--brand);text-decoration:none}
+    .wrap{max-width:1140px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{width:180px;height:44px}
+    .tiny{font-size:12px;color:var(--muted)}
+    .muted{color:var(--muted)}
+    .pill{background:#0e1530;border:1px solid var(--stroke);color:#9aa4b5;padding:6px 10px;border-radius:999px;font-size:12px}
+    .glass{background:var(--glass);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+    .hero{margin-top:18px}
+    .hero h1{font-size:34px;margin:0 0 10px}
+    .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}
+    .card{background:#0b1228;border:1px solid var(--stroke);border-radius:12px;padding:16px}
+    .card h3{margin:0 0 10px;font-size:16px;color:#cbd5e1}
+    .kvs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .kvs .kv{border:1px solid var(--stroke);border-radius:10px;padding:6px 10px;font-size:12px;color:#cbd5e1;background:#0e1530}
+
+    /* energy bars */
+    .energy-list{display:grid;gap:14px}
+    .energy{background:#0b1228;border:1px solid var(--stroke);border-radius:12px;padding:12px}
+    .energy .labels{display:flex;justify-content:space-between;font-size:12px;color:#e5e7eb;margin-bottom:8px}
+    .energy .track{position:relative;height:16px;border-radius:999px;background:#0e1530;overflow:hidden}
+    .energy .center{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(255,255,255,.15);transform:translateX(-1px)}
+    .energy .left{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,rgba(56,189,248,.15),rgba(56,189,248,.85));box-shadow:0 0 18px rgba(56,189,248,.35) inset}
+    .energy .right{position:absolute;right:0;top:0;bottom:0;background:linear-gradient(270deg,rgba(139,92,246,.15),rgba(139,92,246,.85));box-shadow:0 0 18px rgba(139,92,246,.35) inset}
+    .energy .numbers{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px}
+
+    .list{margin:0;padding-left:18px}
+    .list li{margin:6px 0}
+    .fact{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:start;margin:10px 0;padding:10px;border:1px solid var(--stroke);border-radius:10px;background:#0e1530}
+    .fact .status{font-weight:700}
+    .status.ok{color:#22c55e}
+    .status.mixed{color:#f59e0b}
+    .status.no{color:#ef4444}
+
+    .outlets{display:grid;gap:10px}
+    .outlet{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid var(--stroke);border-radius:10px;padding:10px;background:#0e1530}
+    .outlet .note{font-size:12px;color:var(--muted)}
+    .tag{font-size:11px;border:1px solid var(--stroke);border-radius:999px;padding:4px 8px;color:#cbd5e1;background:#0b1228}
+
+    .footer-note{margin-top:22px;font-size:12px;color:#9aa4b5}
+    @media(max-width:1040px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 320 78" xmlns="http://www.w3.org/2000/svg" aria-label="Spyglass logo">
+          <defs>
+            <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#8b5cf6"/>
+            </linearGradient>
+            <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.25"/>
+            </filter>
+          </defs>
+          <g transform="translate(4,4)" filter="url(#s)">
+            <circle cx="28" cy="28" r="22" fill="#0b1022" stroke="url(#g)" stroke-width="4"/>
+            <circle cx="28" cy="28" r="8" fill="url(#g)"/>
+            <rect x="44" y="38" width="18" height="6" rx="3" transform="rotate(45 44 38)" fill="url(#g)"/>
+          </g>
+          <text x="78" y="48" font-family="Inter" font-weight="800" font-size="40" fill="#e5e7eb">Spyglass</text>
+        </svg>
+        <span class="pill">Demo</span>
+      </div>
+    </header>
+
+    <section class="hero glass" style="padding:22px">
+      <h1>US TikTok Divestment/Ban Legislation</h1>
+      <p class="muted">Coverage on the proposed <em>forced divestment or ban</em> splits between national-security safeguards and censorship/overreach concerns. Spyglass aggregates sources, maps <strong>viewpoint biases</strong> on spectrums, and generates <strong>Narrative</strong>, <strong>History</strong>, and <strong>Fact-checks</strong> with traceable citations.</p>
+      <div class="kvs">
+        <div class="kv">Topic: Technology × National Security × Free Speech</div>
+        <div class="kv">Time window: last 12 months</div>
+        <div class="kv">Region focus: US (+ comparative intl. coverage)</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <!-- Left: Bias Spectra -->
+      <div class="card">
+        <h3>Top Biases (across sources)</h3>
+        <p class="tiny">Spectrums show aggregate lean across analyzed coverage. These are <em>viewpoint</em> biases, inferred using methods like framing/loaded language/source diversity — but we present the <strong>viewpoints</strong>, not the methods.</p>
+        <div class="energy-list tiny">
+          <div class="energy">
+            <div class="labels"><span>Progressive</span><span>Conservative</span></div>
+            <div class="track">
+              <div class="center"></div>
+              <div class="left" style="width:44%"></div>
+              <div class="right" style="width:56%"></div>
+            </div>
+            <div class="numbers"><span>44%</span><span>56%</span></div>
+          </div>
+
+          <div class="energy">
+            <div class="labels"><span>Pro-privacy</span><span>Pro-security</span></div>
+            <div class="track">
+              <div class="center"></div>
+              <div class="left" style="width:62%"></div>
+              <div class="right" style="width:38%"></div>
+            </div>
+            <div class="numbers"><span>62%</span><span>38%</span></div>
+          </div>
+
+          <div class="energy">
+            <div class="labels"><span>Free-speech maximalist</span><span>Platform accountability</span></div>
+            <div class="track">
+              <div class="center"></div>
+              <div class="left" style="width:58%"></div>
+              <div class="right" style="width:42%"></div>
+            </div>
+            <div class="numbers"><span>58%</span><span>42%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Narrative / History / Facts -->
+      <div class="card">
+        <h3>Narrative Summary</h3>
+        <p class="tiny">
+          Security-first coverage emphasizes foreign ownership risks, data exposure, and potential influence operations; it frames divestment as a proportional safeguard. 
+          Civil-liberties coverage questions evidence transparency and warns against precedent for platform-level censorship. 
+          Business/tech reporting centers on deal feasibility, exit timelines, and downstream impacts on creators and advertisers.
+        </p>
+
+        <h3 style="margin-top:14px">Historical Context</h3>
+        <ul class="list tiny">
+          <li><strong>Prior device bans:</strong> Federal/state government devices restricted from using TikTok; sparks corporate policy copycats.</li>
+          <li><strong>CFIUS engagement:</strong> Proposals around data localization and third-party hosting/monitoring surface over multiple rounds.</li>
+          <li><strong>Comparative policy:</strong> Other countries/regions (e.g., EU institutions, UK, AU) adopt varying restrictions on official devices.</li>
+          <li><strong>Platform precedents:</strong> Earlier debates on app store governance, critical infrastructure vendors, and content sovereignty.</li>
+        </ul>
+
+        <h3 style="margin-top:14px">Fact-check Agent (lightweight demo)</h3>
+
+        <div class="fact tiny">
+          <div class="status ok">Supported</div>
+          <div>Some government entities have already restricted the app on official devices. <span class="muted">(multiple outlets)</span></div>
+        </div>
+        <div class="fact tiny">
+          <div class="status mixed">Mixed</div>
+          <div>Claims about direct “state-ordered content manipulation” rely on partial or indirect evidence; sourcing varies across outlets.</div>
+        </div>
+        <div class="fact tiny">
+          <div class="status no">Unverified</div>
+          <div>Assertions that the legislation “automatically bans” the app immediately for all users are often misread; many proposals include divestment windows and process steps.</div>
+        </div>
+
+        <details style="margin-top:10px">
+          <summary class="tiny" style="cursor:pointer">Agent prompt used (demo)</summary>
+          <pre class="tiny" style="white-space:pre-wrap;line-height:1.4;background:#0e1530;border:1px solid var(--stroke);border-radius:8px;padding:10px;margin-top:8px;">
+fetch articles about "US bill on forced divestment or ban of TikTok"
+time window: last 12 months
+regions: US + international (UK/EU/AU)
+need: 2–3 major outlets, 1–2 business/tech, 1–2 civil-liberties org/blog
+return: headline, date, outlet, key claims, quoted sources
+          </pre>
+        </details>
+      </div>
+    </section>
+
+    <section style="margin-top:20px" class="card">
+      <h3>Outlets & Notes</h3>
+      <p class="tiny muted">We do not show full articles. Click to read at the publisher. Short notes flag potentially misleading wording (e.g., vague quantifiers).</p>
+      <div class="outlets">
+        <div class="outlet">
+          <div>
+            <a href="https://www.nytimes.com/" target="_blank" rel="noopener">The New York Times</a>
+            <div class="note">Note: watch for vague attributions when describing “official assessments”.</div>
+          </div>
+          <span class="tag">US national</span>
+        </div>
+        <div class="outlet">
+          <div>
+            <a href="https://www.washingtonpost.com/" target="_blank" rel="noopener">The Washington Post</a>
+            <div class="note">Note: crisp on legislative steps; check timelines and vote breakdowns.</div>
+          </div>
+          <span class="tag">US national</span>
+        </div>
+        <div class="outlet">
+          <div>
+            <a href="https://www.wsj.com/" target="_blank" rel="noopener">The Wall Street Journal</a>
+            <div class="note">Note: strong on deal feasibility and investor signals; mind speculative language.</div>
+          </div>
+          <span class="tag">Business/finance</span>
+        </div>
+        <div class="outlet">
+          <div>
+            <a href="https://www.theverge.com/" target="_blank" rel="noopener">The Verge</a>
+            <div class="note">Note: product/policy mechanics are clear; confirm dates against primary sources.</div>
+          </div>
+          <span class="tag">Tech</span>
+        </div>
+        <div class="outlet">
+          <div>
+            <a href="https://www.aclu.org/" target="_blank" rel="noopener">ACLU</a>
+            <div class="note">Note: civil-liberties angle; distinguishes device bans vs public bans.</div>
+          </div>
+          <span class="tag">Civil liberties</span>
+        </div>
+      </div>
+
+      <p class="footer-note">This demo is illustrative. Percentages reflect a synthetic aggregate to show product behavior; replace with your pipeline outputs when wired.</p>
+    </section>
+  </div>
+
+  <script>
+    // (Optional) If you want to record demo metric locally:
+    try{
+      const bump=k=>{const v=Number(localStorage.getItem(k)||0)+1;localStorage.setItem(k,v);return v};
+      if(!localStorage.getItem('_spyglass_demo_seen')){localStorage.setItem('_spyglass_demo_seen','1');bump('demo_visits');}
+    }catch(e){}
+  </script>
+</body>
+</html>
